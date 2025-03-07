@@ -116,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const tags = document.querySelectorAll(".tag");
   const items = document.querySelectorAll(".item");
+  const message = document.getElementById("message");
 
   // Track active filters
   let activeFilters = [];
@@ -137,11 +138,18 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Filter the items based on active tags
-      filterItems();
+      const hiddenItems = filterItems();
+
+      if (hiddenItems === items.length) {
+        message.style.display = "block";
+      } else {
+        message.style.display = "none";
+      }
     });
   });
 
   function filterItems() {
+    let output = 0;
     items.forEach((item) => {
       const tags = item.getAttribute("data-tags").split(",");
 
@@ -152,9 +160,12 @@ document.addEventListener("DOMContentLoaded", function () {
       ) {
         item.style.display = "block"; // Show the item
       } else {
+        output++;
         item.style.display = "none"; // Hide the item
       }
     });
+
+    return output;
   }
 });
 
